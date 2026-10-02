@@ -10,27 +10,24 @@ export const M_DEUTERON = 2 * 1.67262192369e-27;
 
 /** Φ(r) in volts. r, Rc, Ra in meters; V0 is the positive bias magnitude. */
 export function phi(r, Rc, Ra, V0) {
-  const denom = 1 / Rc - 1 / Ra;
+  const D = 1 / Rc - 1 / Ra;
   if (r >= Rc) {
     const rr = Math.max(r, 1e-9);
-    return -V0 * (1 / rr - 1 / Ra) / denom;
+    return -V0 * (1 / rr - 1 / Ra) / D;
   }
-  // C1 match at Rc: Φ(Rc) = -V0, ∂rΦ continuous.
-  // ∂rΦ|_{Rc+} = V0 / (denom * Rc^2)
-  const dphi = V0 / (denom * Rc * Rc);
-  const k = dphi / Rc;
+  // Interior C1 quadratic. k = V0 / (Rc^3 D); Φ(Rc) = -V0 from both sides.
+  const k = V0 / (Rc * Rc * Rc * D);
   return -V0 + 0.5 * k * (r * r - Rc * Rc);
 }
 
 /** Er = -∂rΦ in V/m. Negative outside (inward on a positive ion). */
 export function electricFieldR(r, Rc, Ra, V0) {
-  const denom = 1 / Rc - 1 / Ra;
+  const D = 1 / Rc - 1 / Ra;
   if (r >= Rc) {
     const rr = Math.max(r, 1e-9);
-    return -V0 / (denom * rr * rr);
+    return -V0 / (D * rr * rr);
   }
-  const dphi = V0 / (denom * Rc * Rc);
-  const k = dphi / Rc;
+  const k = V0 / (Rc * Rc * Rc * D);
   return -k * r;
 }
 
