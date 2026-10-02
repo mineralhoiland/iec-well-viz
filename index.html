@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IEC vacuum well</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="view"></canvas>
+  <header id="banner">
+    Fixed vacuum Φ toy. No space charge. Not Langmuir–Blodgett.
+    D⁺ ions in a concentric-sphere well. No fusion yield.
+  </header>
+  <aside id="hud">
+    <h1>IEC vacuum well</h1>
+    <p class="formula">
+      R<sub>c</sub> ≤ r ≤ R<sub>a</sub>:
+      Φ(r) = −V₀ (1/r − 1/R<sub>a</sub>) / (1/R<sub>c</sub> − 1/R<sub>a</sub>)<br />
+      r &lt; R<sub>c</sub>: C¹ quadratic match. Φ(0) = −1.6 V₀ when R<sub>a</sub>/R<sub>c</sub> = 6.
+    </p>
+    <label>Bias V₀ <output id="v0Out"></output>
+      <input id="v0" type="range" min="5" max="80" step="1" value="30" />
+    </label>
+    <label>Anode R<sub>a</sub> <output id="raOut"></output>
+      <input id="ra" type="range" min="0.06" max="0.40" step="0.005" value="0.15" />
+    </label>
+    <label>Cathode R<sub>c</sub> <output id="rcOut"></output>
+      <input id="rc" type="range" min="0.008" max="0.12" step="0.001" value="0.025" />
+    </label>
+    <label>Particles <output id="nOut"></output>
+      <input id="n" type="range" min="24" max="180" step="1" value="72" />
+    </label>
+    <label>Time scale <output id="speedOut"></output>
+      <input id="speed" type="range" min="0.25" max="6" step="0.05" value="1" />
+    </label>
+    <label class="row">Seed
+      <input id="seed" type="number" min="0" max="999999" step="1" value="42" />
+    </label>
+    <label class="check"><input id="trails" type="checkbox" checked /> Trails</label>
+    <div class="buttons">
+      <button id="pause" type="button">Pause</button>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </aside>
+  <section id="readout">
+    <div><span>Φ(0) / V₀</span><strong id="phi0">—</strong></div>
+    <div><span>R<sub>a</sub> / R<sub>c</sub></span><strong id="ratio">—</strong></div>
+    <div><span>Sample E<sub>kin</sub></span><strong id="energies">—</strong></div>
+  </section>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
